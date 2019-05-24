@@ -32,7 +32,7 @@ formLogin.addEventListener("submit", function (e) {
     var dados = {
         username: document.getElementById("id_nome_usuario_login").value,
         password: document.getElementById("id_senha_login").value
-};
+    };
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -40,15 +40,14 @@ formLogin.addEventListener("submit", function (e) {
             var resposta = JSON.parse(this.responseText);
             sessionStorage.setItem("token", resposta.token);
             mensagem.innerHTML = "Login efetuado com sucesso!";
-        } else if (this.readyState == 4  && this.status == 400) {
+            mensagem.style.display = 'block';
+            window.location.href = "pagina_inicial.html";
+        } else if (this.status == 400) {
             mensagem.innerHTML = "Verifique os dados!";
+            mensagem.style.display = 'block';
         } 
-        console.log(this.readyState);
-        console.log(this.status);
-        mensagem.style.display = 'block';
     };
-  //  var url = "http://www.henriquesantos.pro.br:8080/api/trello/login";
-    var url = "http://192.168.120.202:8080/api/trello/login";
+    var url = " https://tads-trello.herokuapp.com/api/trello/login";
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-type", "application/json");
 
@@ -59,7 +58,7 @@ formLogin.addEventListener("submit", function (e) {
 /* SUBMIT DO FORM DE CADASTRO */
 formCadastro.addEventListener("submit", function (e) {
     e.preventDefault();
-    mensagem.style.display = 'none';
+   
     if(senha1.value == senha2.value){
         if(verificarSenha(senha1.value)){
             var dados = {
@@ -74,19 +73,19 @@ formCadastro.addEventListener("submit", function (e) {
                 if (this.readyState == 4 && this.status == 200) {
                     console.log(this.responseText);
                     mensagem.innerHTML = "Usuário cadastrado com sucesso!";
+                    mensagem.style.display = 'block';
                 } 
                 if (this.readyState == 4 && this.status ==400) {
                     mensagem.innerHTML = "Usuário não cadastrado, verifique o nome do usuário!";
                     console.log(this.status, this.responseText);
+                    mensagem.style.display = 'block';
                 } 
-                mensagem.style.display = 'block';
+                
+                
             };
-            //var url = " "; 
-            var url = "http://192.168.120.202:8080/api/trello/users/new";
+            var url = " https://tads-trello.herokuapp.com/api/trello/users/new";
             xhttp.open("POST", url, true);
             xhttp.setRequestHeader("Content-type", "application/json");
-        
-            console.log(dados);
         
             xhttp.send(JSON.stringify(dados));            
         }else{

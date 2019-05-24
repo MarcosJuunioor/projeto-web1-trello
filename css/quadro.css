@@ -1,0 +1,8 @@
+#id_botao_fechar{
+    top: 1px;
+    right: 1px;
+    font-size: 20px;
+    color: #787878;
+    padding: 4px 8px;
+    cursor: pointer;
+}

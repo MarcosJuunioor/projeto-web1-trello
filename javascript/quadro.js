@@ -90,8 +90,11 @@ function criarLista(){
     botaoFechar.innerHTML="X";
     lista.appendChild(botaoFechar);
 
+
+
     //botão adicionar adiciona a lista e cria uma nova lista.
     botaoAdicionar.addEventListener("click", function(e){
+    
         criarLista();
     });
 
@@ -101,5 +104,14 @@ function criarLista(){
         quadro.appendChild(botaoAdicionarLista); //atualiza  a posição do botão
         botaoAdicionarLista.style.display="block";
     });
+
+}
+
+//método cria cria cartão
+function criarCartao(){
+    var cartao = document.createElement("div");
+    lista.appendChild(cartao);
+    
+
 
 }

@@ -27,10 +27,11 @@ if(token){//permanece na página
             var titulo = document.createElement("h3");
             titulo.innerHTML=nomeQuadro;
             cabecalho.appendChild(titulo);
-
-
+            
+            listarListas();
+            
             //criação de lista
-            criarLista();  
+            criarLista();
          
             
             //botão "adicionar outra lista"
@@ -67,67 +68,86 @@ if(token){//permanece na página
 }
 
 //método cria lista
-function criarLista(){
-    var lista = document.createElement("div");
-    lista.setAttribute("class", "col-sm-2");
-    lista.style.background="#D8D8D8";
-    lista.style.marginLeft="0.4%";
-    lista.style.marginTop="0.4%";
-    quadro.appendChild(lista);
-    
-
-    var tituloLista = document.createElement("input");
-    tituloLista.setAttribute("required", "required");
-    tituloLista.setAttribute("type", "text");
-    lista.appendChild(tituloLista);
-
-    var botaoCadastrarLista = document.createElement("input");
-    botaoCadastrarLista.setAttribute("type", "button");
-    botaoCadastrarLista.value="Adicionar Lista";
-    lista.appendChild(botaoCadastrarLista);
-
-    var botaoFechar = document.createElement("span")
-    botaoFechar.setAttribute("id", "id_botao_fechar");
-    botaoFechar.innerHTML="X";
-    lista.appendChild(botaoFechar);
-
-
-
-    //"botão adicionar" adiciona a lista e cria uma nova lista.
-    botaoCadastrarLista.addEventListener("click", function(e){
-        /** requisição de cadastro de lista **/
-        var dados = {
-            name: tituloLista.value,
-            token: token,
-            board_id: idQuadro
-        };
-        var xhttp = new XMLHttpRequest();
-
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
-            } 
-        };
-        var url = "https://tads-trello.herokuapp.com/api/trello/lists/new";
-        xhttp.open("POST", url, true);
-        xhttp.setRequestHeader("Content-type", "application/json");
-        xhttp.send(JSON.stringify(dados));   
-
-        //Exclusão do botão "fechar", pois a lista já foi criada
-        lista.removeChild(botaoFechar);
-
-        //Exclisao do botão "cadastrar lista", pois a lista já foi cadastrada
-        lista.removeChild(botaoCadastrarLista);
+function criarLista(idLista, nomeLista){
+    if(idLista == undefined){
+        var lista = document.createElement("div");
+        lista.setAttribute("class", "col-sm-2");
+        lista.style.background="#D8D8D8";
+        lista.style.marginLeft="0.4%";
+        lista.style.marginTop="0.4%";
+        quadro.appendChild(lista);
         
-        criarLista();
-    });
 
-    //botao "fechar" remove a lista e exibe o botão de criar nova lista.
-    botaoFechar.addEventListener("click", function(e){
-        quadro.removeChild(lista);
-        quadro.appendChild(botaoAdicionarLista); //atualiza  a posição do botão
-        botaoAdicionarLista.style.display="block";
-    });
+        var tituloLista = document.createElement("input");
+        tituloLista.setAttribute("required", "required");
+        tituloLista.setAttribute("type", "text");
+        lista.appendChild(tituloLista);
+
+        var botaoCadastrarLista = document.createElement("input");
+        botaoCadastrarLista.setAttribute("type", "button");
+        botaoCadastrarLista.value="Adicionar Lista";
+        lista.appendChild(botaoCadastrarLista);
+
+        var botaoFechar = document.createElement("span")
+        botaoFechar.setAttribute("id", "id_botao_fechar");
+        botaoFechar.innerHTML="X";
+        lista.appendChild(botaoFechar);
+
+
+
+        //"botão cadastrar" adiciona a lista e cria uma nova lista.
+        botaoCadastrarLista.addEventListener("click", function(e){
+            /** requisição de cadastro de lista **/
+            var dados = {
+                name: tituloLista.value,
+                token: token,
+                board_id: idQuadro
+            };
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    var obj = JSON.parse(this.responseText);
+                    lista.setAttribute("id", obj.id);
+                } 
+            };
+            var url = "https://tads-trello.herokuapp.com/api/trello/lists/new";
+            xhttp.open("POST", url, true);
+            xhttp.setRequestHeader("Content-type", "application/json");
+            xhttp.send(JSON.stringify(dados));   
+
+            //Exclusão do botão "fechar", pois a lista já foi criada
+            lista.removeChild(botaoFechar);
+
+            //Exclisao do botão "cadastrar lista", pois a lista já foi cadastrada
+            lista.removeChild(botaoCadastrarLista);
+            
+            criarLista();
+        });
+
+        //botao "fechar" remove a lista e exibe o botão de criar nova lista.
+        botaoFechar.addEventListener("click", function(e){
+            quadro.removeChild(lista);
+            quadro.appendChild(botaoAdicionarLista); //atualiza  a posição do botão
+            botaoAdicionarLista.style.display="block";
+        });
+    }else{
+        var lista = document.createElement("div");
+        lista.setAttribute("class", "col-sm-2");
+        lista.setAttribute("id", idLista);
+        lista.style.background="#D8D8D8";
+        lista.style.marginLeft="0.4%";
+        lista.style.marginTop="0.4%";
+        quadro.appendChild(lista);
+        
+
+        var tituloLista = document.createElement("input");
+        tituloLista.setAttribute("required", "required");
+        tituloLista.setAttribute("type", "text");
+        tituloLista.setAttribute("value", nomeLista);
+        lista.appendChild(tituloLista);
+        
+    }
 
 }
 
@@ -138,4 +158,28 @@ function criarCartao(){
     
 
 
+}
+
+//Faz requisição das listas associadas ao quadro
+function listarListas(){
+    
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            var listas = JSON.parse(this.responseText);
+            var idLista = [];
+            var nomeLista = [];
+            
+            for(var i=0; i<listas.length;i++){
+                idLista = listas[i].id;
+                nomeLista = listas[i].name;
+                criarLista(idLista, nomeLista);
+            }
+        } 
+    };
+    var url = "https://tads-trello.herokuapp.com/api/trello/lists/"+token+"/board/"+idQuadro;
+    xhttp.open("GET", url, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();  
 }

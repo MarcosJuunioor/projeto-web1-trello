@@ -1,6 +1,6 @@
 //var token = sessionStorage.getItem("token");
 //var idQuadro = sessionStorage.getItem("id_quadro");
-var token = "KH5unrSuRrXq6sxmXLY4Lw";
+var token = "5grLUkVudgy3d56AcD5HGA";
 var idQuadro = 2;
 
 if(token){//permanece na página
@@ -12,6 +12,7 @@ if(token){//permanece na página
     var quadro = document.getElementById("id_quadro");
     var botaoSair = document.getElementById("id_botao_sair");
 
+    //redirecionamento para tela de login ao clicar em "sair"
     botaoSair.addEventListener("click", function(e){
         e.preventDefault();
         window.location.href = "index.html";
@@ -119,15 +120,19 @@ function criarLista(idLista, nomeLista){
                 if (this.readyState == 4 && this.status == 200) {
                     var obj = JSON.parse(this.responseText);
                     lista.setAttribute("id", obj.id);
+
+                    //Acrescenta o botão de exclusão
+                    lista.appendChild(botaoExcluir);
+                    botaoExcluir.addEventListener("click", function(e){
+                    excluirLista(idLista);
+                    quadro.removeChild(lista);
+                    });
                 } 
             };
             var url = "https://tads-trello.herokuapp.com/api/trello/lists/new";
             xhttp.open("POST", url, true);
             xhttp.setRequestHeader("Content-type", "application/json");
             xhttp.send(JSON.stringify(dados));   
-
-            //Acrescenta o botão de exclusão
-            lista.appendChild(botaoExcluir);
 
             //Exclusão do botão "fechar", pois a lista já foi criada
             lista.removeChild(botaoFechar);
@@ -165,6 +170,11 @@ function criarLista(idLista, nomeLista){
             excluirLista(idLista);
             quadro.removeChild(lista);
         });
+
+        var botaoAdicionarCartao = document.createElement("input");
+        botaoAdicionarCartao.setAttribute("type", "button");
+        botaoAdicionarCartao.value="Adicionar cartão";
+        lista.appendChild(botaoAdicionarCartao);
      
     }
 

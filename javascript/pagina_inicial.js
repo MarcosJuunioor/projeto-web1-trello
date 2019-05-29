@@ -4,6 +4,12 @@ console.log(token);
 if(token){//Continua na página
     
     var botaoCriarQuadro = document.getElementById("id_botao_criar_quadro");
+    var botaoSair = document.getElementById("id_botao_sair");
+
+    botaoSair.addEventListener("click", function(e){
+        e.preventDefault();
+        window.location.href = "index.html";
+    });
 
     botaoCriarQuadro.addEventListener("click", function(e){
     e.preventDefault();

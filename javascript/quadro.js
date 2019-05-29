@@ -1,6 +1,6 @@
 //var token = sessionStorage.getItem("token");
 //var idQuadro = sessionStorage.getItem("id_quadro");
-var token = "UwBf7B9jZVTyfAVKq35QL9";
+var token = "KH5unrSuRrXq6sxmXLY4Lw";
 var idQuadro = 2;
 
 if(token){//permanece na página
@@ -10,13 +10,18 @@ if(token){//permanece na página
     var corQuadro;
     var cabecalho = document.getElementById("id_cabecalho");
     var quadro = document.getElementById("id_quadro");
+    var botaoSair = document.getElementById("id_botao_sair");
+
+    botaoSair.addEventListener("click", function(e){
+        e.preventDefault();
+        window.location.href = "index.html";
+    });
 
     //requisição do quadro
     var xhttp = new XMLHttpRequest();
 
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             var obj = JSON.parse(this.responseText);
             
             nomeQuadro =  obj[0].name;
@@ -67,8 +72,13 @@ if(token){//permanece na página
     
 }
 
-//método cria lista
+//cria uma nova lista 
 function criarLista(idLista, nomeLista){
+    var botaoExcluir = document.createElement("span")
+    botaoExcluir.setAttribute("id", "id_botao_excluir");
+    botaoExcluir.innerHTML="X";
+    
+    
     if(idLista == undefined){
         var lista = document.createElement("div");
         lista.setAttribute("class", "col-sm-2");
@@ -116,6 +126,9 @@ function criarLista(idLista, nomeLista){
             xhttp.setRequestHeader("Content-type", "application/json");
             xhttp.send(JSON.stringify(dados));   
 
+            //Acrescenta o botão de exclusão
+            lista.appendChild(botaoExcluir);
+
             //Exclusão do botão "fechar", pois a lista já foi criada
             lista.removeChild(botaoFechar);
 
@@ -140,18 +153,24 @@ function criarLista(idLista, nomeLista){
         lista.style.marginTop="0.4%";
         quadro.appendChild(lista);
         
-
         var tituloLista = document.createElement("input");
         tituloLista.setAttribute("required", "required");
         tituloLista.setAttribute("type", "text");
         tituloLista.setAttribute("value", nomeLista);
         lista.appendChild(tituloLista);
-        
+
+        lista.appendChild(botaoExcluir);
+
+        botaoExcluir.addEventListener("click", function(e){
+            excluirLista(idLista);
+            quadro.removeChild(lista);
+        });
+     
     }
 
 }
 
-//método cria cria cartão
+//Cria um novo cartão
 function criarCartao(){
     var cartao = document.createElement("div");
     lista.appendChild(cartao);
@@ -168,8 +187,8 @@ function listarListas(){
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var listas = JSON.parse(this.responseText);
-            var idLista = [];
-            var nomeLista = [];
+            var idLista;
+            var nomeLista;
             
             for(var i=0; i<listas.length;i++){
                 idLista = listas[i].id;
@@ -182,4 +201,25 @@ function listarListas(){
     xhttp.open("GET", url, false);
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();  
+}
+
+//Exclui lista com id passado como parâmetro
+function excluirLista(idLista){
+    var xhttp = new XMLHttpRequest();
+
+    var dados = {
+        list_id: idLista,
+        token: token
+    };
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log(this.responseText);
+        } 
+    };
+    var url = "https://tads-trello.herokuapp.com/api/trello/lists/delete";
+    xhttp.open("DELETE", url, true);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(dados));   
+
 }

@@ -1,6 +1,7 @@
 //var token = sessionStorage.getItem("token");
 //var idQuadro = sessionStorage.getItem("id_quadro");
-var token = "5grLUkVudgy3d56AcD5HGA";
+console.log(token);
+var token = "8vAu8jK6CvENKCrVHJkZ6f";
 var idQuadro = 2;
 
 if(token){//permanece na página
@@ -11,6 +12,13 @@ if(token){//permanece na página
     var cabecalho = document.getElementById("id_cabecalho");
     var quadro = document.getElementById("id_quadro");
     var botaoSair = document.getElementById("id_botao_sair");
+    var home = document.getElementById("id_home");
+
+    //redirecionamento para página inicial ao clicar em "home"
+    home.addEventListener("click", function(e){
+        e.preventDefault();
+        window.location.href = "pagina_inicial.html";
+    });
 
     //redirecionamento para tela de login ao clicar em "sair"
     botaoSair.addEventListener("click", function(e){
@@ -24,7 +32,7 @@ if(token){//permanece na página
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
             var obj = JSON.parse(this.responseText);
-            
+
             nomeQuadro =  obj[0].name;
             corQuadro = obj[0].color;
             
@@ -43,6 +51,7 @@ if(token){//permanece na página
             //botão "adicionar outra lista"
             botaoAdicionarLista = document.createElement("input");
             botaoAdicionarLista.setAttribute("type", "button");
+            botaoAdicionarLista.setAttribute("class", "btn btn-light btn-sm");
             botaoAdicionarLista.value="Adicionar outra lista";
             botaoAdicionarLista.style.height="10%";
             botaoAdicionarLista.style.display="none";
@@ -96,6 +105,7 @@ function criarLista(idLista, nomeLista){
 
         var botaoCadastrarLista = document.createElement("input");
         botaoCadastrarLista.setAttribute("type", "button");
+        botaoCadastrarLista.setAttribute("class", "btn btn-success btn-sm");
         botaoCadastrarLista.value="Adicionar Lista";
         lista.appendChild(botaoCadastrarLista);
 
@@ -119,20 +129,27 @@ function criarLista(idLista, nomeLista){
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     var obj = JSON.parse(this.responseText);
-                    lista.setAttribute("id", obj.id);
-
-                    //Acrescenta o botão de exclusão
-                    lista.appendChild(botaoExcluir);
-                    botaoExcluir.addEventListener("click", function(e){
-                    excluirLista(idLista);
-                    quadro.removeChild(lista);
-                    });
+                    lista.setAttribute("id_lista", obj.id);
                 } 
             };
             var url = "https://tads-trello.herokuapp.com/api/trello/lists/new";
             xhttp.open("POST", url, true);
             xhttp.setRequestHeader("Content-type", "application/json");
             xhttp.send(JSON.stringify(dados));   
+
+            //Acrescenta o botão de exclusão
+            lista.appendChild(botaoExcluir);
+            botaoExcluir.addEventListener("click", function(e){
+            excluirLista(lista.getAttribute("id_lista"));
+            quadro.removeChild(lista);
+            });
+
+            //botão para adicionar um novo cartão
+            var botaoAdicionarNovoCartao = document.createElement("input");
+            botaoAdicionarNovoCartao.setAttribute("type", "button");
+            botaoAdicionarNovoCartao.setAttribute("class", "btn btn-dark btn-sm");
+            botaoAdicionarNovoCartao.value="Adicionar cartão";
+            lista.appendChild(botaoAdicionarNovoCartao);
 
             //Exclusão do botão "fechar", pois a lista já foi criada
             lista.removeChild(botaoFechar);
@@ -170,11 +187,12 @@ function criarLista(idLista, nomeLista){
             excluirLista(idLista);
             quadro.removeChild(lista);
         });
-
-        var botaoAdicionarCartao = document.createElement("input");
-        botaoAdicionarCartao.setAttribute("type", "button");
-        botaoAdicionarCartao.value="Adicionar cartão";
-        lista.appendChild(botaoAdicionarCartao);
+        //botão para adicionar um novo cartão
+        var botaoAdicionarNovoCartao = document.createElement("input");
+        botaoAdicionarNovoCartao.setAttribute("type", "button");
+        botaoAdicionarNovoCartao.setAttribute("class", "btn btn-dark btn-sm");
+        botaoAdicionarNovoCartao.value="Adicionar cartão";
+        lista.appendChild(botaoAdicionarNovoCartao);
      
     }
 

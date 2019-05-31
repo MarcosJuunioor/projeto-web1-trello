@@ -52,7 +52,7 @@ if(token){//permanece na página
             botaoAdicionarLista = document.createElement("input");
             botaoAdicionarLista.setAttribute("type", "button");
             botaoAdicionarLista.setAttribute("class", "btn btn-light btn-sm");
-            botaoAdicionarLista.value="Adicionar outra lista";
+            botaoAdicionarLista.value="Nova lista";
             botaoAdicionarLista.style.height="10%";
             botaoAdicionarLista.style.display="none";
             botaoAdicionarLista.style.marginLeft="0.4%";
@@ -148,7 +148,7 @@ function criarLista(idLista, nomeLista){
             var botaoAdicionarNovoCartao = document.createElement("input");
             botaoAdicionarNovoCartao.setAttribute("type", "button");
             botaoAdicionarNovoCartao.setAttribute("class", "btn btn-dark btn-sm");
-            botaoAdicionarNovoCartao.value="Adicionar cartão";
+            botaoAdicionarNovoCartao.value="Novo cartão";
             lista.appendChild(botaoAdicionarNovoCartao);
 
             //Exclusão do botão "fechar", pois a lista já foi criada
@@ -191,7 +191,7 @@ function criarLista(idLista, nomeLista){
         var botaoAdicionarNovoCartao = document.createElement("input");
         botaoAdicionarNovoCartao.setAttribute("type", "button");
         botaoAdicionarNovoCartao.setAttribute("class", "btn btn-dark btn-sm");
-        botaoAdicionarNovoCartao.value="Adicionar cartão";
+        botaoAdicionarNovoCartao.value="Novo cartão";
         lista.appendChild(botaoAdicionarNovoCartao);
      
     }
@@ -199,9 +199,17 @@ function criarLista(idLista, nomeLista){
 }
 
 //Cria um novo cartão
-function criarCartao(){
+function criarCartao(idLista){
+    //{ "name": "Card 1", "data": "dd/mm/yyyy", "token": "PAposhSCEzRouxtck6rgsP", "list_id": "1", }
+    var lista = document.getElementById(idLista);
     var cartao = document.createElement("div");
+    var tituloCartao = document.createElement("textarea");
+    var botaoAdicionarCartao = document.createElement("button");
+    botaoAdicionarCartao.setAttribute("class", "btn btn-success btn-sm");
+
+    cartao.appendChild(tituloCartao);
     lista.appendChild(cartao);
+    
     
 
 

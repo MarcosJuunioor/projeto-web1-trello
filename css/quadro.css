@@ -1,4 +1,13 @@
-#id_botao_fechar, #id_botao_excluir{
+.botao_fechar{
+    top: 1px;
+    right: 1px;
+    font-size: 20px;
+    color: #787878;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.botao_excluir{
     top: 1px;
     right: 1px;
     font-size: 20px;

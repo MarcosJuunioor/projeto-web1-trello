@@ -1,6 +1,6 @@
 //var token = sessionStorage.getItem("token");
 //var idQuadro = sessionStorage.getItem("id_quadro");
-console.log(token);
+//console.log(token);
 var token = "8vAu8jK6CvENKCrVHJkZ6f";
 var idQuadro = 2;
 
@@ -84,23 +84,26 @@ if(token){//permanece na página
 
 //cria uma nova lista 
 function criarLista(idLista, nomeLista){
+    //botão para excluir uma lista
     var botaoExcluir = document.createElement("span")
-    botaoExcluir.setAttribute("id", "id_botao_excluir");
+    botaoExcluir.setAttribute("class", "botao_excluir");
     botaoExcluir.innerHTML="X";
     
     
     if(idLista == undefined){
         var lista = document.createElement("div");
-        lista.setAttribute("class", "col-sm-2");
+        lista.setAttribute("class", "col-md-2");
         lista.style.background="#D8D8D8";
         lista.style.marginLeft="0.4%";
         lista.style.marginTop="0.4%";
+        
         quadro.appendChild(lista);
         
 
         var tituloLista = document.createElement("input");
         tituloLista.setAttribute("required", "required");
         tituloLista.setAttribute("type", "text");
+        tituloLista.style.width="80%";
         lista.appendChild(tituloLista);
 
         var botaoCadastrarLista = document.createElement("input");
@@ -110,7 +113,7 @@ function criarLista(idLista, nomeLista){
         lista.appendChild(botaoCadastrarLista);
 
         var botaoFechar = document.createElement("span")
-        botaoFechar.setAttribute("id", "id_botao_fechar");
+        botaoFechar.setAttribute("class", "botao_fechar");
         botaoFechar.innerHTML="X";
         lista.appendChild(botaoFechar);
 
@@ -168,17 +171,19 @@ function criarLista(idLista, nomeLista){
         });
     }else{
         var lista = document.createElement("div");
-        lista.setAttribute("class", "col-sm-2");
+        lista.setAttribute("class", "col-md-2");
         lista.setAttribute("id", idLista);
         lista.style.background="#D8D8D8";
         lista.style.marginLeft="0.4%";
         lista.style.marginTop="0.4%";
+        
         quadro.appendChild(lista);
         
         var tituloLista = document.createElement("input");
         tituloLista.setAttribute("required", "required");
         tituloLista.setAttribute("type", "text");
         tituloLista.setAttribute("value", nomeLista);
+        tituloLista.style.width="80%";
         lista.appendChild(tituloLista);
 
         lista.appendChild(botaoExcluir);
@@ -193,22 +198,44 @@ function criarLista(idLista, nomeLista){
         botaoAdicionarNovoCartao.setAttribute("class", "btn btn-dark btn-sm");
         botaoAdicionarNovoCartao.value="Novo cartão";
         lista.appendChild(botaoAdicionarNovoCartao);
+
+        
+        botaoAdicionarNovoCartao.addEventListener("click", function(e){
+            e.preventDefault();
+            this.style.display="none";
+            criarCartao(idLista, botaoAdicionarNovoCartao);
+        });
      
     }
 
 }
 
 //Cria um novo cartão
-function criarCartao(idLista){
+function criarCartao(idLista, botaoNovo){
     //{ "name": "Card 1", "data": "dd/mm/yyyy", "token": "PAposhSCEzRouxtck6rgsP", "list_id": "1", }
+    //cartão e seus elementos
     var lista = document.getElementById(idLista);
     var cartao = document.createElement("div");
     var tituloCartao = document.createElement("textarea");
-    var botaoAdicionarCartao = document.createElement("button");
+    var botaoAdicionarCartao = document.createElement("input");
+    botaoAdicionarCartao.setAttribute("type", "button");
     botaoAdicionarCartao.setAttribute("class", "btn btn-success btn-sm");
-
+    botaoAdicionarCartao.value="Adicionar Cartão";
+    var botaoFechar = document.createElement("span")
+    botaoFechar.setAttribute("class", "botao_fechar");
+    botaoFechar.innerHTML="X";
+    
+    //adicionando elementos ao cartão e depois adicionando o cartão à lista
     cartao.appendChild(tituloCartao);
+    cartao.appendChild(botaoAdicionarCartao);
+    cartao.appendChild(botaoFechar);
     lista.appendChild(cartao);
+
+    botaoFechar.addEventListener("click", function(e){
+        e.preventDefault();
+        lista.removeChild(cartao);
+        botaoNovo.style.display="block" 
+    });
     
     
 

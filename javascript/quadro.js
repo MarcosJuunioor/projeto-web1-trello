@@ -1,7 +1,7 @@
 //var token = sessionStorage.getItem("token");
 //var idQuadro = sessionStorage.getItem("id_quadro");
 //console.log(token);
-var token = "8vAu8jK6CvENKCrVHJkZ6f";
+var token = "Kou67xRBPpqdb9n6G8ae8Q";
 var idQuadro = 2;
 
 if(token){//permanece na página
@@ -154,6 +154,12 @@ function criarLista(idLista, nomeLista){
             botaoAdicionarNovoCartao.value="Novo cartão";
             lista.appendChild(botaoAdicionarNovoCartao);
 
+            botaoAdicionarNovoCartao.addEventListener("click", function(e){
+                e.preventDefault();
+                this.style.display="none";
+                criarCartao(lista.ATTRIBUTE_NODE("id_lista").value, botaoAdicionarNovoCartao);
+            });
+
             //Exclusão do botão "fechar", pois a lista já foi criada
             lista.removeChild(botaoFechar);
 
@@ -217,10 +223,12 @@ function criarCartao(idLista, botaoNovo){
     var lista = document.getElementById(idLista);
     var cartao = document.createElement("div");
     var tituloCartao = document.createElement("textarea");
+
     var botaoAdicionarCartao = document.createElement("input");
     botaoAdicionarCartao.setAttribute("type", "button");
     botaoAdicionarCartao.setAttribute("class", "btn btn-success btn-sm");
     botaoAdicionarCartao.value="Adicionar Cartão";
+
     var botaoFechar = document.createElement("span")
     botaoFechar.setAttribute("class", "botao_fechar");
     botaoFechar.innerHTML="X";
@@ -236,6 +244,46 @@ function criarCartao(idLista, botaoNovo){
         lista.removeChild(cartao);
         botaoNovo.style.display="block" 
     });
+   
+    //criação de uma div que representa a tag (que é um dropdown com opções de cores)
+    var tag = document.createElement("div");
+    tag.setAttribute("class", "btn-group");
+    var botao = document.createElement("button");
+    botao.setAttribute("class", "btn btn-secondary btn-sm dropdown-toggle");
+    botao.setAttribute("type", "button");
+    botao.setAttribute("data-toggle", "dropdown");
+    botao.setAttribute("aria-haspopup", "true");
+    botao.setAttribute("aria-expanded", "false");
+    var divDropDown = document.createElement("div");
+    divDropDown.setAttribute("class", "dropdown-menu");
+    tag.appendChild(botao);
+    tag.appendChild(divDropDown);
+
+    var listaCores = document.createElement("ul");
+    var cores = [];
+    for(var i=0;i<6;i++){
+        cores[i] = document.createElement("li");
+        var cor = document.createElement("button");
+        cor.setAttribute("class", "btn btn-primary");
+        cores[i].appendChild(cor);
+        listaCores.appendChild(cores[i]);
+    }
+    divDropDown.appendChild(listaCores);
+    cartao.appendChild(tag);
+    /* 
+    <span class="icon-sm icon-check card-label-selectable-icon light"></span>
+
+    <div class="btn-group">
+        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Small button
+        </button>
+        <div class="dropdown-menu">
+            ...
+        </div>
+    </div>
+
+    <span class="card-label mod-selectable card-label-green  js-select-label selected" data-idlabel="5ce5547e91d0c2ddc5460d36" data-color="green"><span class="icon-sm icon-check card-label-selectable-icon light"></span></span>
+    */
     
     
 

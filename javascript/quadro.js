@@ -87,6 +87,7 @@ function criarLista(idLista, nomeLista){
     //botão para excluir uma lista
     var botaoExcluir = document.createElement("span")
     botaoExcluir.setAttribute("class", "botao_excluir");
+    botaoExcluir.style.margin="2% 2% 2% 2%";
     botaoExcluir.innerHTML="X";
     
     
@@ -98,7 +99,8 @@ function criarLista(idLista, nomeLista){
         
         var lista = document.createElement("div");
         lista.style.background="#D8D8D8";
-
+        lista.style.padding="3%";
+        lista.style.borderRadius="10px";
 
         divLista.appendChild(lista);
         quadro.appendChild(divLista);
@@ -108,17 +110,21 @@ function criarLista(idLista, nomeLista){
         tituloLista.setAttribute("required", "required");
         tituloLista.setAttribute("type", "text");
         tituloLista.style.width="80%";
+        tituloLista.style.margin="2% 2% 2% 2%";
         lista.appendChild(tituloLista);
 
         var botaoCadastrarLista = document.createElement("input");
         botaoCadastrarLista.setAttribute("type", "button");
         botaoCadastrarLista.setAttribute("class", "btn btn-success btn-sm");
         botaoCadastrarLista.value="Adicionar Lista";
+        botaoCadastrarLista.style.margin="2% 2% 2% 2%";
         lista.appendChild(botaoCadastrarLista);
+        
 
         var botaoFechar = document.createElement("span")
         botaoFechar.setAttribute("class", "botao_fechar");
         botaoFechar.innerHTML="X";
+        botaoFechar.style.margin="2% 2% 2% 2%";
         lista.appendChild(botaoFechar);
 
 
@@ -156,6 +162,7 @@ function criarLista(idLista, nomeLista){
             botaoAdicionarNovoCartao.setAttribute("type", "button");
             botaoAdicionarNovoCartao.setAttribute("class", "btn btn-dark btn-sm");
             botaoAdicionarNovoCartao.value="Novo cartão";
+            botaoAdicionarNovoCartao.style.margin="2% 2% 2% 2%";
             lista.appendChild(botaoAdicionarNovoCartao);
 
             botaoAdicionarNovoCartao.addEventListener("click", function(e){
@@ -188,6 +195,8 @@ function criarLista(idLista, nomeLista){
         var lista = document.createElement("div");
         lista.setAttribute("id", idLista);
         lista.style.background="#D8D8D8";
+        lista.style.padding="3%";
+        lista.style.borderRadius="10px";
 
         divLista.appendChild(lista);
         quadro.appendChild(divLista);
@@ -196,7 +205,11 @@ function criarLista(idLista, nomeLista){
         tituloLista.setAttribute("required", "required");
         tituloLista.setAttribute("type", "text");
         tituloLista.setAttribute("value", nomeLista);
+        tituloLista.style.margin="2% 2% 2% 2%";
         tituloLista.style.width="80%";
+        tituloLista.style.background="transparent";
+        tituloLista.style.border="none";
+        tituloLista.style.fontWeight="bold";
         lista.appendChild(tituloLista);
 
         lista.appendChild(botaoExcluir);
@@ -209,6 +222,7 @@ function criarLista(idLista, nomeLista){
         var botaoAdicionarNovoCartao = document.createElement("input");
         botaoAdicionarNovoCartao.setAttribute("type", "button");
         botaoAdicionarNovoCartao.setAttribute("class", "btn btn-dark btn-sm");
+        botaoAdicionarNovoCartao.style.margin="2% 2% 2% 2%";
         botaoAdicionarNovoCartao.value="Novo cartão";
         lista.appendChild(botaoAdicionarNovoCartao);
 
@@ -229,7 +243,8 @@ function criarCartao(idLista, botaoNovo){
     //cartão e seus elementos
     var lista = document.getElementById(idLista);
     var cartao = document.createElement("div");
-    var tituloCartao = document.createElement("textarea");
+    var tituloCartao = document.createElement("input");
+    tituloCartao.setAttribute("type", "text");;
     var botaoAdicionarCartao = document.createElement("input");
     botaoAdicionarCartao.setAttribute("type", "button");
     botaoAdicionarCartao.setAttribute("class", "btn btn-success btn-sm");
@@ -264,36 +279,49 @@ function criarCartao(idLista, botaoNovo){
     tag.appendChild(botao);
     tag.appendChild(divDropDown);
 
-    var listaCores = document.createElement("ul");
-    var cores = [];
+    var ulCores = document.createElement("ul");
+    ulCores.setAttribute("style", "list-style:none");
+    var lisC = [];
+    var cores = ["green", "yellow", "orange", "red", "purple", "blue"];
     for(var i=0;i<6;i++){
-        cores[i] = document.createElement("li");
+        lisC[i] = document.createElement("li");
         var cor = document.createElement("button");
-        cor.setAttribute("class", "btn btn-primary");
-        cores[i].appendChild(cor);
-        listaCores.appendChild(cores[i]);
+        cor.setAttribute("class", "btn-lg botao_tag");
+        cor.setAttribute("style", "background: "+cores[i]);
+        lisC[i].appendChild(cor);
+        ulCores.appendChild(lisC[i]);
     }
-    divDropDown.appendChild(listaCores);
+    divDropDown.appendChild(ulCores);
     cartao.appendChild(tag);
-    /* 
-    <span class="icon-sm icon-check card-label-selectable-icon light"></span>
 
-    <div class="btn-group">
-        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Small button
-        </button>
-        <div class="dropdown-menu">
-            ...
-        </div>
-    </div>
+    //definição da data de cadastro do cartão
+    var dataCadastro = new Date();
+    var dd = String(dataCadastro.getDate()).padStart(2, '0');
+    var mm = String(dataCadastro.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = dataCadastro.getFullYear();
+    
+    dataCadastro = mm + '/' + dd + '/' + yyyy;
 
-    <span class="card-label mod-selectable card-label-green  js-select-label selected" data-idlabel="5ce5547e91d0c2ddc5460d36" data-color="green"><span class="icon-sm icon-check card-label-selectable-icon light"></span></span>
-    */
-    
-    
+
+    botaoAdicionarCartao.addEventListener("click", function(e){
+        var dadosCartao = {
+            name: tituloCartao.value,
+            data: dataCadastro,
+            token: token,
+            list_id: idLista
+        };
+
+        console.log(
+            dadosCartao.name+" "+
+            dadosCartao.data+" "+
+            dadosCartao.token+" "+
+            dadosCartao.list_id
+        );
+    });
 
 
 }
+
 
 //Faz requisição das listas associadas ao quadro
 function listarListas(){
@@ -339,3 +367,4 @@ function excluirLista(idLista){
     xhttp.send(JSON.stringify(dados));   
 
 }
+

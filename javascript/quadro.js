@@ -1,7 +1,7 @@
 //var token = sessionStorage.getItem("token");
 //var idQuadro = sessionStorage.getItem("id_quadro");
 //console.log(token);
-var token = "Vg2poYPYPPU2qYMkaHWJrT";
+var token = "8SHBe4WuH4Hc63otjeTNnL";
 var idQuadro = 2;
 
 if(token){//permanece na página
@@ -87,18 +87,18 @@ function criarLista(idLista, nomeLista){
     //botão para excluir uma lista
     var botaoExcluir = document.createElement("span")
     botaoExcluir.setAttribute("class", "botao_excluir");
-    botaoExcluir.style.margin="2% 2% 2% 2%";
+    botaoExcluir.style.margin="1% 1% 1% 1%";
     botaoExcluir.innerHTML="X";
     
     
     if(idLista == undefined){
         var divLista = document.createElement("div");
         divLista.setAttribute("class", "col-md-2");
-        divLista.style.marginLeft="0.4%";
-        divLista.style.marginTop="0.4%";
+        divLista.style.padding="3px";
+
         
         var lista = document.createElement("div");
-        lista.style.background="#D8D8D8";
+        lista.style.background="#E6E6E6";
         lista.style.padding="3%";
         lista.style.borderRadius="10px";
 
@@ -109,7 +109,7 @@ function criarLista(idLista, nomeLista){
         var tituloLista = document.createElement("input");
         tituloLista.setAttribute("required", "required");
         tituloLista.setAttribute("type", "text");
-        tituloLista.style.width="80%";
+        tituloLista.style.width="96%";
         tituloLista.style.margin="2% 2% 2% 2%";
         lista.appendChild(tituloLista);
 
@@ -124,7 +124,7 @@ function criarLista(idLista, nomeLista){
         var botaoFechar = document.createElement("span")
         botaoFechar.setAttribute("class", "botao_fechar");
         botaoFechar.innerHTML="X";
-        botaoFechar.style.margin="2% 2% 2% 2%";
+        botaoFechar.style.margin="1% 1% 1% 1%";
         lista.appendChild(botaoFechar);
 
 
@@ -189,12 +189,11 @@ function criarLista(idLista, nomeLista){
     }else{
         var divLista = document.createElement("div");
         divLista.setAttribute("class", "col-md-2");
-        divLista.style.marginLeft="0.4%";
-        divLista.style.marginTop="0.4%";
+        divLista.style.padding="3px";
         
         var lista = document.createElement("div");
         lista.setAttribute("id", idLista);
-        lista.style.background="#D8D8D8";
+        lista.style.background="#E6E6E6";
         lista.style.padding="3%";
         lista.style.borderRadius="10px";
 
@@ -243,14 +242,21 @@ function criarCartao(idLista, botaoNovo){
     //cartão e seus elementos
     var lista = document.getElementById(idLista);
     var cartao = document.createElement("div");
+
     var tituloCartao = document.createElement("input");
-    tituloCartao.setAttribute("type", "text");;
+    tituloCartao.setAttribute("type", "text");
+    tituloCartao.style.width="96%";
+    tituloCartao.style.margin="2% 2% 2% 2%";
+
     var botaoAdicionarCartao = document.createElement("input");
     botaoAdicionarCartao.setAttribute("type", "button");
     botaoAdicionarCartao.setAttribute("class", "btn btn-success btn-sm");
+    botaoAdicionarCartao.style.margin="2% 2% 2% 2%";
     botaoAdicionarCartao.value="Adicionar Cartão";
+
     var botaoFechar = document.createElement("span")
     botaoFechar.setAttribute("class", "botao_fechar");
+    botaoFechar.style.margin="2% 2% 2% 2%";
     botaoFechar.innerHTML="X";
     
     //adicionando elementos ao cartão e depois adicionando o cartão à lista
@@ -276,22 +282,24 @@ function criarCartao(idLista, botaoNovo){
     botao.setAttribute("aria-expanded", "false");
     var divDropDown = document.createElement("div");
     divDropDown.setAttribute("class", "dropdown-menu");
+    divDropDown.style.width="50%";
+    divDropDown.style.borderRadius="5px";
+    divDropDown.style.padding="1%";
     tag.appendChild(botao);
     tag.appendChild(divDropDown);
 
-    var ulCores = document.createElement("ul");
-    ulCores.setAttribute("style", "list-style:none");
-    var lisC = [];
+    var divCores = document.createElement("div");
+    var spanCores = [];
     var cores = ["green", "yellow", "orange", "red", "purple", "blue"];
     for(var i=0;i<6;i++){
-        lisC[i] = document.createElement("li");
+        spanCores[i] = document.createElement("span");
         var cor = document.createElement("button");
-        cor.setAttribute("class", "btn-lg botao_tag");
+        cor.setAttribute("class", "btn botao_tag");
         cor.setAttribute("style", "background: "+cores[i]);
-        lisC[i].appendChild(cor);
-        ulCores.appendChild(lisC[i]);
+        spanCores[i].appendChild(cor);
+        divCores.appendChild(spanCores[i]);
     }
-    divDropDown.appendChild(ulCores);
+    divDropDown.appendChild(divCores);
     cartao.appendChild(tag);
 
     //definição da data de cadastro do cartão

@@ -1,7 +1,7 @@
 //var token = sessionStorage.getItem("token");
 //var idQuadro = sessionStorage.getItem("id_quadro");
 //console.log(token);
-var token = "Kou67xRBPpqdb9n6G8ae8Q";
+var token = "Vg2poYPYPPU2qYMkaHWJrT";
 var idQuadro = 2;
 
 if(token){//permanece na página
@@ -91,13 +91,17 @@ function criarLista(idLista, nomeLista){
     
     
     if(idLista == undefined){
-        var lista = document.createElement("div");
-        lista.setAttribute("class", "col-md-2");
-        lista.style.background="#D8D8D8";
-        lista.style.marginLeft="0.4%";
-        lista.style.marginTop="0.4%";
+        var divLista = document.createElement("div");
+        divLista.setAttribute("class", "col-md-2");
+        divLista.style.marginLeft="0.4%";
+        divLista.style.marginTop="0.4%";
         
-        quadro.appendChild(lista);
+        var lista = document.createElement("div");
+        lista.style.background="#D8D8D8";
+
+
+        divLista.appendChild(lista);
+        quadro.appendChild(divLista);
         
 
         var tituloLista = document.createElement("input");
@@ -132,7 +136,7 @@ function criarLista(idLista, nomeLista){
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     var obj = JSON.parse(this.responseText);
-                    lista.setAttribute("id_lista", obj.id);
+                    lista.setAttribute("id", obj.id);
                 } 
             };
             var url = "https://tads-trello.herokuapp.com/api/trello/lists/new";
@@ -143,8 +147,8 @@ function criarLista(idLista, nomeLista){
             //Acrescenta o botão de exclusão
             lista.appendChild(botaoExcluir);
             botaoExcluir.addEventListener("click", function(e){
-            excluirLista(lista.getAttribute("id_lista"));
-            quadro.removeChild(lista);
+            excluirLista(lista.getAttribute("id"));
+            quadro.removeChild(divLista);
             });
 
             //botão para adicionar um novo cartão
@@ -157,7 +161,7 @@ function criarLista(idLista, nomeLista){
             botaoAdicionarNovoCartao.addEventListener("click", function(e){
                 e.preventDefault();
                 this.style.display="none";
-                criarCartao(lista.ATTRIBUTE_NODE("id_lista").value, botaoAdicionarNovoCartao);
+                criarCartao(lista.getAttribute("id"), botaoAdicionarNovoCartao);
             });
 
             //Exclusão do botão "fechar", pois a lista já foi criada
@@ -171,19 +175,22 @@ function criarLista(idLista, nomeLista){
 
         //botao "fechar" remove a lista e exibe o botão de criar nova lista.
         botaoFechar.addEventListener("click", function(e){
-            quadro.removeChild(lista);
+            quadro.removeChild(divLista);
             quadro.appendChild(botaoAdicionarLista); //atualiza  a posição do botão
             botaoAdicionarLista.style.display="block";
         });
     }else{
+        var divLista = document.createElement("div");
+        divLista.setAttribute("class", "col-md-2");
+        divLista.style.marginLeft="0.4%";
+        divLista.style.marginTop="0.4%";
+        
         var lista = document.createElement("div");
-        lista.setAttribute("class", "col-md-2");
         lista.setAttribute("id", idLista);
         lista.style.background="#D8D8D8";
-        lista.style.marginLeft="0.4%";
-        lista.style.marginTop="0.4%";
-        
-        quadro.appendChild(lista);
+
+        divLista.appendChild(lista);
+        quadro.appendChild(divLista);
         
         var tituloLista = document.createElement("input");
         tituloLista.setAttribute("required", "required");
@@ -196,7 +203,7 @@ function criarLista(idLista, nomeLista){
 
         botaoExcluir.addEventListener("click", function(e){
             excluirLista(idLista);
-            quadro.removeChild(lista);
+            quadro.removeChild(divLista);
         });
         //botão para adicionar um novo cartão
         var botaoAdicionarNovoCartao = document.createElement("input");
@@ -223,12 +230,10 @@ function criarCartao(idLista, botaoNovo){
     var lista = document.getElementById(idLista);
     var cartao = document.createElement("div");
     var tituloCartao = document.createElement("textarea");
-
     var botaoAdicionarCartao = document.createElement("input");
     botaoAdicionarCartao.setAttribute("type", "button");
     botaoAdicionarCartao.setAttribute("class", "btn btn-success btn-sm");
     botaoAdicionarCartao.value="Adicionar Cartão";
-
     var botaoFechar = document.createElement("span")
     botaoFechar.setAttribute("class", "botao_fechar");
     botaoFechar.innerHTML="X";
@@ -244,8 +249,8 @@ function criarCartao(idLista, botaoNovo){
         lista.removeChild(cartao);
         botaoNovo.style.display="block" 
     });
-   
-    //criação de uma div que representa a tag (que é um dropdown com opções de cores)
+	
+	//criação de uma div que representa a tag (que é um dropdown com opções de cores)
     var tag = document.createElement("div");
     tag.setAttribute("class", "btn-group");
     var botao = document.createElement("button");

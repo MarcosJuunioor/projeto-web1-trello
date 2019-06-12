@@ -1,24 +1,24 @@
 .botao_fechar{
-    top: 1px;
-    right: 1px;
-    font-size: 20px;
+    font-size: 25px;
     color: #787878;
-    padding: 4px 8px;
     cursor: pointer;
 }
 
-.botao_excluir{
-    top: 1px;
-    right: 1px;
-    font-size: 20px;
-    color: #787878;
-    padding: 4px 8px;
+.botao_excluir{ 
+    width: 10%;
+    height: 10%;
     cursor: pointer;
 }
 
 .botao_tag{
     padding: 14px 75px !important;
     margin: 2% 2% 2% 2%;
+}
+
+.classe_lista{
+    background: white;
+    border: 1px solid;
+    border-color: grey;
 }
 
 

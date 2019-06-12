@@ -1,8 +1,8 @@
 //var token = sessionStorage.getItem("token");
 //var idQuadro = sessionStorage.getItem("id_quadro");
-//console.log(token);
-var token = "8SHBe4WuH4Hc63otjeTNnL";
-var idQuadro = 2;
+//console.log(idQuadro);
+var token = "BqRdrBrv5vciKXuVPvpzfS";
+var idQuadro = 2382;
 
 if(token){//permanece na página
     
@@ -85,10 +85,10 @@ if(token){//permanece na página
 //cria uma nova lista 
 function criarLista(idLista, nomeLista){
     //botão para excluir uma lista
-    var botaoExcluir = document.createElement("span")
+    var botaoExcluir = document.createElement("img")
+    botaoExcluir.setAttribute("src", "https://img.icons8.com/ios/50/000000/empty-trash-filled.png");
     botaoExcluir.setAttribute("class", "botao_excluir");
     botaoExcluir.style.margin="1% 1% 1% 1%";
-    botaoExcluir.innerHTML="X";
     
     
     if(idLista == undefined){
@@ -98,7 +98,7 @@ function criarLista(idLista, nomeLista){
 
         
         var lista = document.createElement("div");
-        lista.style.background="#E6E6E6";
+        lista.setAttribute("class", "classe_lista");
         lista.style.padding="3%";
         lista.style.borderRadius="10px";
 
@@ -109,7 +109,7 @@ function criarLista(idLista, nomeLista){
         var tituloLista = document.createElement("input");
         tituloLista.setAttribute("required", "required");
         tituloLista.setAttribute("type", "text");
-        tituloLista.style.width="96%";
+        tituloLista.style.width="96.5%";
         tituloLista.style.margin="2% 2% 2% 2%";
         lista.appendChild(tituloLista);
 
@@ -119,12 +119,10 @@ function criarLista(idLista, nomeLista){
         botaoCadastrarLista.value="Adicionar Lista";
         botaoCadastrarLista.style.margin="2% 2% 2% 2%";
         lista.appendChild(botaoCadastrarLista);
-        
 
-        var botaoFechar = document.createElement("span")
+        var botaoFechar = document.createElement("span");
         botaoFechar.setAttribute("class", "botao_fechar");
         botaoFechar.innerHTML="X";
-        botaoFechar.style.margin="1% 1% 1% 1%";
         lista.appendChild(botaoFechar);
 
 
@@ -149,6 +147,13 @@ function criarLista(idLista, nomeLista){
             xhttp.open("POST", url, true);
             xhttp.setRequestHeader("Content-type", "application/json");
             xhttp.send(JSON.stringify(dados));   
+
+            //algumas configurações de css do título da lista são alteradas quando a lista é adicionada
+            tituloLista.style.width="80%";
+            tituloLista.style.background="transparent";
+            tituloLista.style.border="none";
+            tituloLista.style.fontWeight="bold";
+            tituloLista.style.cursor="pointer";
 
             //Acrescenta o botão de exclusão
             lista.appendChild(botaoExcluir);
@@ -192,8 +197,8 @@ function criarLista(idLista, nomeLista){
         divLista.style.padding="3px";
         
         var lista = document.createElement("div");
+        lista.setAttribute("class", "classe_lista");
         lista.setAttribute("id", idLista);
-        lista.style.background="#E6E6E6";
         lista.style.padding="3%";
         lista.style.borderRadius="10px";
 
@@ -209,10 +214,10 @@ function criarLista(idLista, nomeLista){
         tituloLista.style.background="transparent";
         tituloLista.style.border="none";
         tituloLista.style.fontWeight="bold";
+        tituloLista.style.cursor="pointer";
         lista.appendChild(tituloLista);
 
         lista.appendChild(botaoExcluir);
-
         botaoExcluir.addEventListener("click", function(e){
             excluirLista(idLista);
             quadro.removeChild(divLista);
@@ -256,9 +261,8 @@ function criarCartao(idLista, botaoNovo){
 
     var botaoFechar = document.createElement("span")
     botaoFechar.setAttribute("class", "botao_fechar");
-    botaoFechar.style.margin="2% 2% 2% 2%";
     botaoFechar.innerHTML="X";
-    
+
     //adicionando elementos ao cartão e depois adicionando o cartão à lista
     cartao.appendChild(tituloCartao);
     cartao.appendChild(botaoAdicionarCartao);
@@ -274,17 +278,18 @@ function criarCartao(idLista, botaoNovo){
 	//criação de uma div que representa a tag (que é um dropdown com opções de cores)
     var tag = document.createElement("div");
     tag.setAttribute("class", "btn-group");
+    tag.style.marginLeft="34%";
+
     var botao = document.createElement("button");
     botao.setAttribute("class", "btn btn-secondary btn-sm dropdown-toggle");
     botao.setAttribute("type", "button");
     botao.setAttribute("data-toggle", "dropdown");
     botao.setAttribute("aria-haspopup", "true");
     botao.setAttribute("aria-expanded", "false");
+
     var divDropDown = document.createElement("div");
     divDropDown.setAttribute("class", "dropdown-menu");
-    divDropDown.style.width="50%";
-    divDropDown.style.borderRadius="5px";
-    divDropDown.style.padding="1%";
+ 
     tag.appendChild(botao);
     tag.appendChild(divDropDown);
 

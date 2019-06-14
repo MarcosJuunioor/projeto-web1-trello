@@ -109,6 +109,7 @@ function criarLista(idLista, nomeLista){
         var tituloLista = document.createElement("input");
         tituloLista.setAttribute("required", "required");
         tituloLista.setAttribute("type", "text");
+        tituloLista.setAttribute("placeholder", "Digite um título...");
         tituloLista.style.width="96.5%";
         tituloLista.style.margin="2% 2% 2% 2%";
         lista.appendChild(tituloLista);
@@ -118,11 +119,14 @@ function criarLista(idLista, nomeLista){
         botaoCadastrarLista.setAttribute("class", "btn btn-success btn-sm");
         botaoCadastrarLista.value="Adicionar Lista";
         botaoCadastrarLista.style.margin="2% 2% 2% 2%";
+        botaoCadastrarLista.style.position="relative";
         lista.appendChild(botaoCadastrarLista);
 
-        var botaoFechar = document.createElement("span");
-        botaoFechar.setAttribute("class", "botao_fechar");
-        botaoFechar.innerHTML="X";
+        var botaoFechar = document.createElement("input");
+        botaoFechar.setAttribute("class", "botao_fechar btn btn-outline-danger btn-sm");
+        botaoFechar.setAttribute("type", "button");
+        botaoFechar.style.position="absolute";
+        botaoFechar.setAttribute("value", "X");
         lista.appendChild(botaoFechar);
 
 
@@ -248,8 +252,8 @@ function criarCartao(idLista, botaoNovo){
     var lista = document.getElementById(idLista);
     var cartao = document.createElement("div");
 
-    var tituloCartao = document.createElement("input");
-    tituloCartao.setAttribute("type", "text");
+    var tituloCartao = document.createElement("textarea");
+    
     tituloCartao.style.width="96%";
     tituloCartao.style.margin="2% 2% 2% 2%";
 
@@ -259,9 +263,12 @@ function criarCartao(idLista, botaoNovo){
     botaoAdicionarCartao.style.margin="2% 2% 2% 2%";
     botaoAdicionarCartao.value="Adicionar Cartão";
 
-    var botaoFechar = document.createElement("span")
-    botaoFechar.setAttribute("class", "botao_fechar");
-    botaoFechar.innerHTML="X";
+    var botaoFechar = document.createElement("input");
+    botaoFechar.setAttribute("class", "botao_fechar btn btn-outline-danger btn-sm");
+    botaoFechar.setAttribute("type", "button");
+    botaoFechar.setAttribute("value", "X");
+    botaoFechar.style.position="relative";
+    botaoFechar.style.marginTop="0.5%";
 
     //adicionando elementos ao cartão e depois adicionando o cartão à lista
     cartao.appendChild(tituloCartao);
@@ -278,7 +285,9 @@ function criarCartao(idLista, botaoNovo){
 	//criação de uma div que representa a tag (que é um dropdown com opções de cores)
     var tag = document.createElement("div");
     tag.setAttribute("class", "btn-group");
-    tag.style.marginLeft="34%";
+    tag.style.position="relative";
+    tag.style.marginLeft="2%";
+    tag.style.marginTop="0.5%";
 
     var botao = document.createElement("button");
     botao.setAttribute("class", "btn btn-secondary btn-sm dropdown-toggle");

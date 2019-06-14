@@ -1,5 +1,7 @@
 .botao_fechar{
-    font-size: 25px;
+    position: relative;
+    margin-top: 2%;
+      
     color: #787878;
     cursor: pointer;
 }

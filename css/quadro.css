@@ -1,7 +1,6 @@
 .botao_fechar{
     position: relative;
-    margin-top: 2%;
-      
+    margin-top: 2%; 
     color: #787878;
     cursor: pointer;
 }
@@ -12,15 +11,69 @@
     cursor: pointer;
 }
 
-.botao_tag{
+.botoes_tag{
     padding: 14px 75px !important;
-    margin: 2% 2% 2% 2%;
+    margin-top: 1%;
+    border-radius: 5px;
 }
 
-.classe_lista{
-    background: white;
+#id_tags_cartao{
+    padding: 1%;
+}
+
+.lista{
+    background: #F2F2F2;
     border: 1px solid;
-    border-color: grey;
+    border-color: transparent;
 }
 
+.span_titulo_cartao{
+    clear: both;
+    display: block;
+    margin: 0 0 4px;
+    overflow: hidden;
+    text-decoration: none;
+    word-wrap: break-word;
+    color: #172b4d;
+    cursor: pointer;
+    padding: 1%;
+}
+
+.modal_cartao {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+  .conteudo_modal_cartao{
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%;
+    margin-top: 5%;
+  }
+
+
+  /* The Close Button */
+.close_modal_cartao {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close_modal_cartao:hover,
+  .close_modal_cartao:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
 

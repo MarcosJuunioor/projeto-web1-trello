@@ -134,6 +134,7 @@ function criarLista(idLista, nomeLista){
 
         //"botão cadastrar" adiciona a lista e cria uma nova lista.
         botaoCadastrarLista.addEventListener("click", function(e){
+            this.disable="true";
             /** requisição de cadastro de lista **/
             var dados = {
                 name: tituloLista.value,
@@ -298,7 +299,8 @@ function excluirLista(idLista){
 
 
 //Cria um novo cartão 
-function criarCartao(idLista, botaoNovo, nomeCartao){
+function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
+
     if(nomeCartao == undefined){
         //cartão e seus elementos
         var lista = document.getElementById(idLista);
@@ -364,10 +366,10 @@ function criarCartao(idLista, botaoNovo, nomeCartao){
             };
 
             var xhttp = new XMLHttpRequest();
-
+            var cartaoRetornoServ;
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {          
-                    console.log(this.responseText);
+                    cartaoRetornoServ = JSON.parse(this.responseText); 
                 } 
             };
             
@@ -394,8 +396,8 @@ function criarCartao(idLista, botaoNovo, nomeCartao){
             // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
             var modalCartao = document.getElementById("id_modal_cartao");
             spanTituloCartao.addEventListener("click", function(e){
+                preencherFormCartao(cartaoRetornoServ.id);
                 modalCartao.style.display="block";
-        
             });
             window.onclick = function(event) {
                 if (event.target == modalCartao) {
@@ -445,8 +447,8 @@ function criarCartao(idLista, botaoNovo, nomeCartao){
             // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
             var modalCartao = document.getElementById("id_modal_cartao");
             spanTituloCartao.addEventListener("click", function(e){
-                modalCartao.style.display="block";
-        
+                preencherFormCartao(idCartao);
+                modalCartao.style.display="block";  
             });
             window.onclick = function(event) {
                 if (event.target == modalCartao) {
@@ -458,7 +460,19 @@ function criarCartao(idLista, botaoNovo, nomeCartao){
                 modalCartao.style.display = "none";
             }
 
+            //botao presente no formulário de dados do cartão que, quando pressionado, chama o método responsável por fazer uma requisição de cadastro de comentário para o cartão.
+            var botaoSalvarComentario = document.getElementById("id_botao_salvar_comentario_cartao");
+            botaoSalvarComentario.addEventListener("click", function(e){
+                e.preventDefault();
+                var comentario = document.getElementById("id_comentario_cartao_form").value;
+                console.log("teste");
+                //adicionarComentario(idCartao, comentario);
+            });
+
     }
+
+
+
 
 }
 
@@ -472,7 +486,7 @@ function listarCartoes(idLista){
             var botaoAdicionarNovoCartao = document.getElementById("id_botao_novo_cartao"+idLista);
             
             for(var i=0;i<cartoes.length;i++){
-                criarCartao(idLista, botaoAdicionarNovoCartao, cartoes[i].name);
+                criarCartao(idLista, botaoAdicionarNovoCartao, cartoes[i].id, cartoes[i].name);
             }
         } 
     };
@@ -484,10 +498,46 @@ function listarCartoes(idLista){
 
 }
 
-function preencherFormCartao(){}
+function preencherFormCartao(idCartao){
+    var xhttp = new XMLHttpRequest(); 
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {          
+            var cartao = JSON.parse(this.responseText);
+
+            var tituloCartao = document.getElementById("id_titulo_cartao_form");
+            tituloCartao.value = cartao.name;        
+        } 
+    };
+        
+    var url = "https://tads-trello.herokuapp.com/api/trello/cards/"+token+"/"+idCartao;
+    xhttp.open("get", url, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+
+}
+
+function adicionarComentario(idCartao, comentario){
+    var dados = {
+        card_id: idCartao,
+        comment: comentario,
+        token: token
+    };
+
+    var xhttp = new XMLHttpRequest(); 
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {} 
+    };
+        
+    var url = " https://tads-trello.herokuapp.com/api/trello/cards/addcomment";
+    xhttp.open("post", url, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(dados));
+
+}
+
 function renomearCartao(){}
 function alterarDataCartao(){}
 function adicionarTag(){}
 function excluirCartao(){}
-function adicionarComentario(){}
 function alterarCartaoDeLista(){}

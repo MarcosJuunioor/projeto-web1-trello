@@ -11,6 +11,10 @@
     cursor: pointer;
 }
 
+.cartao{
+  margin: 2% 2% 2% 2%;
+}
+
 .botoes_tag{
     padding: 14px 75px !important;
     margin-top: 1%;

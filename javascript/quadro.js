@@ -4,8 +4,9 @@
 var token = "BqRdrBrv5vciKXuVPvpzfS";
 var idQuadro = 2382;
 
+
 if(token){//permanece na página
-    
+
     var body = document.getElementById("id_body");
     var nomeQuadro;
     var corQuadro;
@@ -13,6 +14,7 @@ if(token){//permanece na página
     var quadro = document.getElementById("id_quadro");
     var botaoSair = document.getElementById("id_botao_sair");
     var home = document.getElementById("id_home");
+
 
     //redirecionamento para página inicial ao clicar em "home"
     home.addEventListener("click", function(e){
@@ -74,7 +76,12 @@ if(token){//permanece na página
     xhttp.setRequestHeader("Content-type", "application/json");
     xhttp.send();
 
-   
+     //definição das cores das tags
+     var tags = document.getElementsByClassName("botoes_tag");
+     var cores = ["green", "yellow", "orange", "red", "purple", "blue"];
+     for(var i=0; i<tags.length; i++){
+         tags.item(i).style.background=cores[i];
+     }
 
 
 }else{
@@ -338,12 +345,6 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
             botaoNovo.style.display="block" 
         });
         
-        //criação de uma div que representa a tag (que é um dropdown com opções de cores)
-        var tags = document.getElementsByClassName("botoes_tag");
-        var cores = ["green", "yellow", "orange", "red", "purple", "blue"];
-        for(var i=0; i<tags.length; i++){
-            tags.item(i).style.background=cores[i];
-        }
 
         //definição da data de cadastro do cartão
         var dataCadastro = new Date();
@@ -446,9 +447,21 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
             
             // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
             var modalCartao = document.getElementById("id_modal_cartao");
+
             spanTituloCartao.addEventListener("click", function(e){
                 preencherFormCartao(idCartao);
                 modalCartao.style.display="block";  
+
+                //botao presente no formulário de dados do cartão que, quando pressionado, chama o método responsável por fazer uma requisição de cadastro de comentário para o cartão.
+                var botaoSalvarComentario = document.getElementById("id_botao_salvar_comentario_cartao");
+                botaoSalvarComentario.addEventListener("click", function(e){
+                    e.preventDefault();
+                    var comentario = document.getElementById("id_comentario_cartao_form").value;
+                    console.log("teste");
+                    //adicionarComentario(idCartao, comentario);
+                    
+                });
+
             });
             window.onclick = function(event) {
                 if (event.target == modalCartao) {
@@ -460,18 +473,7 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
                 modalCartao.style.display = "none";
             }
 
-            //botao presente no formulário de dados do cartão que, quando pressionado, chama o método responsável por fazer uma requisição de cadastro de comentário para o cartão.
-            var botaoSalvarComentario = document.getElementById("id_botao_salvar_comentario_cartao");
-            botaoSalvarComentario.addEventListener("click", function(e){
-                e.preventDefault();
-                var comentario = document.getElementById("id_comentario_cartao_form").value;
-                console.log("teste");
-                //adicionarComentario(idCartao, comentario);
-            });
-
     }
-
-
 
 
 }
@@ -541,3 +543,5 @@ function alterarDataCartao(){}
 function adicionarTag(){}
 function excluirCartao(){}
 function alterarCartaoDeLista(){}
+
+    

@@ -31,7 +31,7 @@
     border-color: transparent;
 }
 
-.span_titulo_cartao{
+.span_titulo_cartao, .comentario{
     clear: both;
     display: block;
     margin: 0 0 4px;
@@ -41,6 +41,9 @@
     color: #172b4d;
     cursor: pointer;
     padding: 1%;
+}
+.comentario{
+    background: #F2F2F2;
 }
 
 .modal_cartao {

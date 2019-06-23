@@ -388,31 +388,47 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
             cartao.style.borderRadius="5px";
             cartao.style.background="white";
 
-            spanTituloCartao.addEventListener("click", function(e){
-                // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
-                var modalCartao = document.getElementById("id_modal_cartao");
-                modalCartao.style.display="block";  
-                preencherFormCartao(idCartao);
+            cartao.addEventListener("mousedown", function(e){
+                e.preventDefault();
+                if(e.which===1){
+                    // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
+                    var modalCartao = document.getElementById("id_modal_cartao");
+                    modalCartao.style.display="block";  
+                    preencherFormCartao(idCartao);
 
-                //botao presente no formulário de dados do cartão que, quando pressionado, chama o método responsável por fazer uma requisição de cadastro de comentário para o cartão.
-                var botaoSalvarComentario = document.getElementById("id_botao_salvar_comentario_cartao");
-                botaoSalvarComentario.addEventListener("click", function(e){
-                    e.preventDefault();
-                    var comentario = document.getElementById("id_comentario_cartao_form").value;
-                    adicionarComentario(idCartao, comentario);
-                    
-                });
+                    //botao presente no formulário de dados do cartão que, quando pressionado, chama o método responsável por fazer uma requisição de cadastro de comentário para o cartão.
+                    var botaoSalvarComentario = document.getElementById("id_botao_salvar_comentario_cartao");
+                    botaoSalvarComentario.addEventListener("click", function(e){
+                        e.preventDefault();
+                        var comentario = document.getElementById("id_comentario_cartao_form").value;
+                        adicionarComentario(idCartao, comentario);
+                        var formCartao = document.getElementById("id_form_cartao");
+                        formCartao.removeChild(document.getElementById("id_div_comentarios"));
+                        listarComentariosCartao(idCartao);
+                        
+                    });
 
-                window.onclick = function(event) {
-                    if (event.target == modalCartao) {
-                        quadro.removeChild(modalCartao);
-                        criarModalCartao();
+                    window.onclick = function(event) {
+                        if (event.target == modalCartao) {
+                            quadro.removeChild(modalCartao);
+                            criarModalCartao(idCartao);
+                        }
                     }
-                }
-                var spanFechaModal = document.getElementsByClassName("close_modal_cartao")[0];
-                spanFechaModal.onclick = function() {
-                    quadro.removeChild(modalCartao);
-                    criarModalCartao();
+                    var spanFechaModal = document.getElementsByClassName("close_modal_cartao")[0];
+                    spanFechaModal.onclick = function() {
+                        quadro.removeChild(modalCartao);
+                        criarModalCartao(idCartao);
+                    }
+
+                    var tituloCartaoForm = document.getElementById("id_titulo_cartao_form");
+                    tituloCartaoForm.addEventListener("blur", function(e){
+                        renomearCartao(idCartao, tituloCartaoForm.value);
+                        //atualização do título do spanTituloCartão (para exibição ao usuário)
+                        spanTituloCartao.innerHTML=tituloCartaoForm.value;
+                    }); 
+                }else if(e.which===3){
+                    excluirCartao(idCartao);
+                    lista.removeChild(cartao);
                 }
             });
             
@@ -421,13 +437,13 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
 
         /*
         o que se pode fazer com um card:
-        - renomear 
+        - renomear (ok)
         - alterar a data
         - alterar um card de list (passar de uma lista para outra)
         - excluir
         - adicionar uma tag
-        - adicionar um comentário 
-        - listar os comentários
+        - adicionar um comentário (ok)
+        - listar os comentários (ok)
         - listar as tags
         */
 
@@ -437,6 +453,7 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
             var lista = document.getElementById(idLista);
             var cartao = document.createElement("div");
             cartao.setAttribute("class", "cartao");
+
 
             //Span para exibir título do cartão
             var spanTituloCartao = document.createElement("span");
@@ -449,31 +466,47 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
             cartao.style.borderRadius="5px";
             cartao.style.background="white";
             
-            spanTituloCartao.addEventListener("click", function(e){
-                // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
-                var modalCartao = document.getElementById("id_modal_cartao");
-                modalCartao.style.display="block";  
-                preencherFormCartao(idCartao);
+            cartao.addEventListener("mousedown", function(e){
+                e.preventDefault();
+                if(e.which===1){
+                    // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
+                    var modalCartao = document.getElementById("id_modal_cartao");
+                    modalCartao.style.display="block";  
+                    preencherFormCartao(idCartao);
 
-                //botao presente no formulário de dados do cartão que, quando pressionado, chama o método responsável por fazer uma requisição de cadastro de comentário para o cartão.
-                var botaoSalvarComentario = document.getElementById("id_botao_salvar_comentario_cartao");
-                botaoSalvarComentario.addEventListener("click", function(e){
-                    e.preventDefault();
-                    var comentario = document.getElementById("id_comentario_cartao_form").value;
-                    adicionarComentario(idCartao, comentario);
-                    
-                });
+                    //botao presente no formulário de dados do cartão que, quando pressionado, chama o método responsável por fazer uma requisição de cadastro de comentário para o cartão.
+                    var botaoSalvarComentario = document.getElementById("id_botao_salvar_comentario_cartao");
+                    botaoSalvarComentario.addEventListener("click", function(e){
+                        e.preventDefault();
+                        var comentario = document.getElementById("id_comentario_cartao_form").value;
+                        adicionarComentario(idCartao, comentario);
+                        var formCartao = document.getElementById("id_form_cartao");
+                        formCartao.removeChild(document.getElementById("id_div_comentarios"));
+                        listarComentariosCartao(idCartao);
+                    });
 
-                window.onclick = function(event) {
-                    if (event.target == modalCartao) {
-                        quadro.removeChild(modalCartao);
-                        criarModalCartao();
+                    window.onclick = function(event) {
+                        if (event.target == modalCartao) {                        
+                            quadro.removeChild(modalCartao);
+                            criarModalCartao(idCartao);
+                        }
                     }
-                }
-                var spanFechaModal = document.getElementsByClassName("close_modal_cartao")[0];
-                spanFechaModal.onclick = function() {
-                    quadro.removeChild(modalCartao);
-                    criarModalCartao();
+                    var spanFechaModal = document.getElementsByClassName("close_modal_cartao")[0];
+                    spanFechaModal.onclick = function() {
+                        quadro.removeChild(modalCartao);
+                        criarModalCartao(idCartao);
+
+                    }
+
+                    var tituloCartaoForm = document.getElementById("id_titulo_cartao_form");
+                    tituloCartaoForm.addEventListener("blur", function(e){
+                        renomearCartao(idCartao, tituloCartaoForm.value);
+                        //atualização do título do spanTituloCartão (para exibição ao usuário)
+                        spanTituloCartao.innerHTML=tituloCartaoForm.value;
+                    }); 
+                }else if(e.which===3){
+                    excluirCartao(idCartao);
+                    lista.removeChild(cartao);
                 }
 
             });
@@ -512,9 +545,12 @@ function preencherFormCartao(idCartao){
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {          
             var cartao = JSON.parse(this.responseText);
-
+            //título
             var tituloCartao = document.getElementById("id_titulo_cartao_form");
             tituloCartao.value = cartao.name;        
+            //comentários
+            listarComentariosCartao(idCartao);
+            
         } 
     };
         
@@ -548,15 +584,88 @@ function adicionarComentario(idCartao, comentario){
 
 }
 
-function renomearCartao(){}
+//função responsável por lsitar todos os comentários de um determinado cartão
+function listarComentariosCartao(idCartao){
+    var xhttp = new XMLHttpRequest(); 
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {          
+            var comentarios = JSON.parse(this.responseText);
+            //elementos dos comentários são adicionados ao form do cartão
+            var formCartao = document.getElementById("id_form_cartao");
+            var divComentarios = document.createElement("div");
+            divComentarios.setAttribute("id", "id_div_comentarios");
+            var labelComentarios = document.createElement("label");
+            labelComentarios.setAttribute("for", "id_div_comentarios");
+            labelComentarios.innerHTML="Comentários";
+            divComentarios.appendChild(labelComentarios);
+            formCartao.appendChild(divComentarios);
+
+            //criação de parágrafos para colocar cada um dos comentários iterativamente
+            for(var i=0; i<comentarios.length;i++){
+                var comentario = document.createElement("p");
+                comentario.setAttribute("class", "comentario");
+                comentario.innerHTML=comentarios[i].comment;
+                divComentarios.appendChild(comentario);
+
+            }     
+        } 
+    };
+        
+    var url = "https://tads-trello.herokuapp.com/api/trello/cards/"+token+"/"+idCartao+"/comments";
+    xhttp.open("get", url, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+}
+
+//renomeia um cartão por meio de requisição patch
+function renomearCartao(idCartao, novoNome){
+    var dados = {
+        token: token,
+        card_id: idCartao,
+        name: novoNome
+    };
+
+    var xhttp = new XMLHttpRequest(); 
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {          
+            console.log(this.response);
+        } 
+    };
+        
+    var url = "https://tads-trello.herokuapp.com/api/trello/cards/rename";
+    xhttp.open("PATCH", url, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(dados));
+}
+
+function excluirCartao(idCartao){
+    // https://tads-trello.herokuapp.com/api/trello/cards/delete
+    var dados = {
+        token: token,
+        card_id: idCartao,
+    };
+
+    var xhttp = new XMLHttpRequest(); 
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {          
+            console.log(this.response);
+        } 
+    };
+        
+    var url = "https://tads-trello.herokuapp.com/api/trello/cards/delete";
+    xhttp.open("DELETE", url, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(dados));
+
+}
+
 function alterarDataCartao(){}
 function adicionarTag(){}
-function excluirCartao(){}
 function alterarCartaoDeLista(){}
 
     
 //função responsável por criar o modal dos cartões, para exibição do form
-function criarModalCartao(){
+function criarModalCartao(idCartao){
 
     var modalCartao = document.createElement("div");
     modalCartao.setAttribute("class", "modal_cartao");
@@ -640,3 +749,4 @@ function criarModalCartao(){
     formCartao.appendChild(divComboBox);
     quadro.appendChild(modalCartao);
 }
+

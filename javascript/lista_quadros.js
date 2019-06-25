@@ -103,6 +103,7 @@ function criarQuadro(idQuadro, nomeQuadro, corQuadro){
         tituloQuadro.setAttribute("required", "required");
         tituloQuadro.setAttribute("type", "text");
         tituloQuadro.setAttribute("value", nomeQuadro);
+        tituloQuadro.setAttribute("id", "id_titulo_quadro_criacao");
         tituloQuadro.style.margin="2% 2% 2% 2%";
         tituloQuadro.style.width="80%";
         tituloQuadro.style.background="transparent";
@@ -130,6 +131,7 @@ function criarQuadro(idQuadro, nomeQuadro, corQuadro){
         var divCores = document.createElement("div");
         var corQuadro = document.createElement("input");
         corQuadro.setAttribute("type", "color");
+        corQuadro.setAttribute("id", "id_cor_quadro_criacao");
         corQuadro.setAttribute("value", "#ff0000");
         divCores.appendChild(corQuadro); 
 

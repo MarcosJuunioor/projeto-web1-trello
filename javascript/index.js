@@ -74,6 +74,7 @@ formCadastro.addEventListener("submit", function (e) {
                     console.log(this.responseText);
                     mensagem.innerHTML = "Usuário cadastrado com sucesso!";
                     mensagem.style.display = 'block';
+                    window.location.href = "index.html";
                 } 
                 if (this.readyState == 4 && this.status ==400) {
                     mensagem.innerHTML = "Usuário não cadastrado, verifique o nome do usuário!";

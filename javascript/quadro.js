@@ -1,8 +1,6 @@
-//var token = sessionStorage.getItem("token");
-//var idQuadro = sessionStorage.getItem("id_quadro");
-//console.log(idQuadro);
-var token = "BqRdrBrv5vciKXuVPvpzfS";
-var idQuadro = 2382;
+var token = sessionStorage.getItem("token");
+var idQuadro = sessionStorage.getItem("id_quadro");
+
 var quadro = document.getElementById("id_quadro");
 
 if(token){//permanece na página
@@ -41,6 +39,7 @@ if(token){//permanece na página
             //Definição de cor de background e título
             body.style="background:"+corQuadro;
             var titulo = document.createElement("h3");
+            titulo.style.marginLeft="2%";
             titulo.innerHTML=nomeQuadro;
             cabecalho.appendChild(titulo);
             
@@ -79,7 +78,7 @@ if(token){//permanece na página
 
 }else{
     //redir login
-    
+    window.location.href = "index.html";
 }
 
 //cria uma nova lista 
@@ -161,6 +160,11 @@ function criarLista(idLista, nomeLista){
             tituloLista.style.fontWeight="bold";
             tituloLista.style.cursor="pointer";
 
+            tituloLista.addEventListener("blur", function(e){
+                e.preventDefault();
+                renomearLista(lista.id, tituloLista.value);
+            });
+
             //Acrescenta o botão de exclusão
             lista.appendChild(botaoExcluir);
             botaoExcluir.addEventListener("click", function(e){
@@ -201,9 +205,9 @@ function criarLista(idLista, nomeLista){
                 event.preventDefault();
                 var idCartao = event.dataTransfer.getData("Text");
                 lista.removeChild(botaoAdicionarNovoCartao);
-                lista.appendChild(document.getElementById(idCartao));
+                lista.appendChild(document.getElementById("id_cartao"+idCartao));
                 lista.appendChild(botaoAdicionarNovoCartao);
-                alterarCartaoDeLista(idCartao, event.target.id);
+                alterarCartaoDeLista(idCartao, lista.id);
                 
             });
         });
@@ -237,6 +241,11 @@ function criarLista(idLista, nomeLista){
         tituloLista.style.cursor="pointer";
         lista.appendChild(tituloLista);
 
+        tituloLista.addEventListener("blur", function(e){
+            e.preventDefault();
+            renomearLista(idLista, tituloLista.value);
+        });
+
         lista.appendChild(botaoExcluir);
         botaoExcluir.addEventListener("click", function(e){
             excluirLista(idLista);
@@ -267,7 +276,6 @@ function criarLista(idLista, nomeLista){
         lista.addEventListener("drop", function(event) {
             event.preventDefault();
             var idCartao = event.dataTransfer.getData("Text");
-console.log(idCartao);
             lista.removeChild(botaoAdicionarNovoCartao);
             lista.appendChild(document.getElementById("id_cartao"+idCartao));
             lista.appendChild(botaoAdicionarNovoCartao);
@@ -302,6 +310,26 @@ function listarListas(){
     xhttp.send();  
 }
 
+//renomeia lista
+function renomearLista(idLista, novoNome){
+    var xhttp = new XMLHttpRequest();
+
+    var dados = {
+        list_id: idLista,
+        name: novoNome,
+        token: token
+    };
+
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {} 
+    };
+    var url = "https://tads-trello.herokuapp.com/api/trello/lists/rename";
+    xhttp.open("PATCH", url, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send(JSON.stringify(dados));   
+
+}
+
 //Exclui lista com id passado como parâmetro
 function excluirLista(idLista){
     var xhttp = new XMLHttpRequest();
@@ -312,9 +340,7 @@ function excluirLista(idLista){
     };
 
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-        } 
+        if (this.readyState == 4 && this.status == 200) {} 
     };
     var url = "https://tads-trello.herokuapp.com/api/trello/lists/delete";
     xhttp.open("DELETE", url, true);
@@ -419,8 +445,10 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
             cartao.style.borderRadius="5px";
             cartao.style.background="white";
 
+            //ao clicar no título, o modal com o form do cartão é aberto
             spanTituloCartao.addEventListener("click", function(e){
                 e.preventDefault();
+                sessionStorage.setItem("idCartao", idCartao);
             
                 // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
                 var modalCartao = document.getElementById("id_modal_cartao");
@@ -440,13 +468,16 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
                     listarComentariosCartao(idCartao);
                     
                 });
-
+                
+                //fecha modal ao clicar fora
                 window.onclick = function(event) {
                     if (event.target == modalCartao) {
                         quadro.removeChild(modalCartao);
                         criarModalCartao(idCartao);
                     }
                 }
+
+                //fecha modal ao clicar no botão fechar
                 var spanFechaModal = document.getElementsByClassName("close_modal_cartao")[0];
                 spanFechaModal.onclick = function() {
                     quadro.removeChild(modalCartao);
@@ -500,13 +531,16 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
             spanTituloCartao.innerHTML=nomeCartao;
             cartao.appendChild(spanTituloCartao);
             lista.appendChild(cartao);
+            listarTags(idCartao, cartao);
 
             cartao.style.borderBottom="1px solid grey";
             cartao.style.borderRadius="5px";
             cartao.style.background="white";
             
+            //ao clicar no cartão, um  modal com o form do cartão é aberto
             cartao.addEventListener("click", function(e){
                 e.preventDefault();
+                sessionStorage.setItem("idCartao", idCartao);
                 
                 // Modal responsável por comportar um formulário usado para exibição/edição dos dados do cartão.    
                 var modalCartao = document.getElementById("id_modal_cartao");
@@ -526,12 +560,15 @@ function criarCartao(idLista, botaoNovo, idCartao, nomeCartao){
                     listarComentariosCartao(idCartao);
                 });
 
+                //fecha modal ao clicar fora
                 window.onclick = function(event) {
-                    if (event.target == modalCartao) {                        
+                    if (event.target == modalCartao) { 
                         quadro.removeChild(modalCartao);
                         criarModalCartao(idCartao);
                     }
                 }
+
+                //fecha modal ao clicar no botão fechar
                 var spanFechaModal = document.getElementsByClassName("close_modal_cartao")[0];
                 spanFechaModal.onclick = function() {
                     quadro.removeChild(modalCartao);
@@ -623,9 +660,7 @@ function adicionarComentario(idCartao, comentario){
     var xhttp = new XMLHttpRequest(); 
 
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
-        } 
+        if (this.readyState == 4 && this.status == 200) {} 
     };
         
     var url = " https://tads-trello.herokuapp.com/api/trello/cards/addcomment";
@@ -680,9 +715,7 @@ function renomearCartao(idCartao, novoNome){
 
     var xhttp = new XMLHttpRequest(); 
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {          
-            console.log(this.response);
-        } 
+        if (this.readyState == 4 && this.status == 200) {} 
     };
         
     var url = "https://tads-trello.herokuapp.com/api/trello/cards/rename";
@@ -700,7 +733,7 @@ function excluirCartao(idCartao){
     var xhttp = new XMLHttpRequest(); 
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {          
-            console.log(this.response);
+            
         } 
     };
         
@@ -711,7 +744,8 @@ function excluirCartao(idCartao){
 
 }
 
-function alterarDataCartao(){}
+
+//Faz requisição para mudar a lista a que pertence um determinado cartão
 function alterarCartaoDeLista(idCartao, idLista){
     var dados = {
         token: token,
@@ -721,12 +755,7 @@ function alterarCartaoDeLista(idCartao, idLista){
 
     var xhttp = new XMLHttpRequest(); 
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {          
-            console.log(this.response);
-        } 
-        if (this.readyState == 4 && this.status == 400) {          
-            console.log(this.response);
-        } 
+        if (this.readyState == 4 && this.status == 200) {} 
     };
         
     var url = "https://tads-trello.herokuapp.com/api/trello/cards/changelist";
@@ -738,6 +767,7 @@ function alterarCartaoDeLista(idCartao, idLista){
 
 //Faz requisição para adicionar uma tag a um cartão
 function adicionarTag(idCartao, idTag){
+        var cartao = document.getElementById("id_cartao"+idCartao);
         var dados = {
             card_id: idCartao,
             tag_id: idTag,
@@ -747,8 +777,24 @@ function adicionarTag(idCartao, idTag){
         var xhttp = new XMLHttpRequest(); 
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {          
-                console.log(this.response);
-            } 
+                
+                    var tag = document.createElement("button");
+                    tag.style.margin="1%";
+                    if(idTag == 2){
+                        tag.setAttribute("class", "btn btn-primary");
+                    }else if(idTag == 12){
+                        tag.setAttribute("class", "btn btn-success");
+                    }else if(idTag == 22){
+                        tag.setAttribute("class", "btn btn-danger");
+                    }else if(idTag == 32){
+                        tag.setAttribute("class", "btn btn-warning");
+                    }
+                    
+                    cartao.appendChild(tag);
+                
+            } else if (this.readyState == 4 && this.status == 400) {          
+                alert("Essa tag já foi adicionada!");
+            }
         };
             
         var url = "https://tads-trello.herokuapp.com/api/trello/cards/addtag";
@@ -758,6 +804,39 @@ function adicionarTag(idCartao, idTag){
 
 }
 
+//Faz requisição para listar tags de um determinado cartão
+function listarTags(idCartao, cartao){
+
+    var xhttp = new XMLHttpRequest(); 
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {    
+
+            var tags = JSON.parse(this.responseText);
+            for(var i=0; i<tags.length; i++){
+                var tag = document.createElement("button");
+                tag.style.margin="1%";
+                if(tags[i].id == 2){
+                    tag.setAttribute("class", "btn btn-primary "+"tags_cartao"+cartao.id);
+                }else if(tags[i].id == 12){
+                    tag.setAttribute("class", "btn btn-success "+"tags_cartao"+cartao.id);
+                }else if(tags[i].id == 22){
+                    tag.setAttribute("class", "btn btn-danger "+"tags_cartao"+cartao.id);
+                }else if(tags[i].id == 32){
+                    tag.setAttribute("class", "btn btn-warning "+"tags_cartao"+cartao.id);
+                }
+                
+                cartao.appendChild(tag);
+            }
+
+        } 
+    };
+        
+    var url = "https://tads-trello.herokuapp.com/api/trello/cards/"+token+"/"+idCartao+"/tags";
+    xhttp.open("GET", url, false);
+    xhttp.setRequestHeader("Content-type", "application/json");
+    xhttp.send();
+
+}
 
     
 //função responsável por criar o modal dos cartões, para exibição do form
@@ -845,11 +924,32 @@ function criarModalCartao(idCartao){
     divComboBox.appendChild(divTags);
     formCartao.appendChild(divComboBox);
     
-    var cores = ["green", "yellow", "orange", "red", "purple", "blue"];
-    for(var i=0; i<6; i++){
+    var cores = ["blue", "green", "red", "yellow"];
+    for(var i=0; i<cores.length; i++){
       var tag = document.createElement("button");
       tag.setAttribute("class", "dropdown-item botoes_tag");
+      tag.setAttribute("id", "id_tag"+i);
       tag.style.background=cores[i];
+      tag.addEventListener("click", function(e){
+        e.preventDefault();
+        if(this.id=="id_tag0"){
+            idCartao = sessionStorage.getItem("idCartao");
+            adicionarTag(idCartao, 2);
+        }
+        if(this.id=="id_tag1"){
+            idCartao = sessionStorage.getItem("idCartao");
+            adicionarTag(idCartao, 12);
+        }
+        if(this.id=="id_tag2"){
+            idCartao = sessionStorage.getItem("idCartao");
+            adicionarTag(idCartao, 22);
+        }
+        if(this.id=="id_tag3"){
+            idCartao = sessionStorage.getItem("idCartao");
+            adicionarTag(idCartao, 32);
+        }
+      });
+
       divTags.appendChild(tag);
     }
 

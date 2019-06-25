@@ -11,7 +11,7 @@
 
 </head>
 
-<body>
+<body background="imagens\bg2.jpg">
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark"> 
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" id="id_home" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
         </ul>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" id="id_botao_sair">Sair</button>
@@ -28,35 +28,13 @@
     </nav>
 
 
-    <div class="container">
+    <div class="container-fluid">
       <!-- Botões para criação e acesso aos quadros  -->
       <div class="row">
-        <div class="col-sm-4">  </div>
+        <div class="col-sm-4"></div>
         <div class="col-sm-4">
-          <button type="button" class="btn btn-outline-success botoesQuadros" id="id_criar_quadro" data-toggle="modal" data-target="#exampleModal">Criar Quadro</button>
+          <button type="button" class="btn btn-outline-success botoesQuadros" id="id_criar_quadro" data-toggle="modal">Criar Quadro</button>
           <button type="button" class="btn btn-outline-success botoesQuadros" id="id_acessar_quadros">Acessar Quadros</button>
-
-          <!-- Modal -->
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content" id="id_modal_content_quadro">
-                <div class="modal-header">
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"> 
-                    <span aria-hidden="true">&times;</span>
-                  </button> 
-                </div>
-                <div class="modal-body">
-                  <form class="form">
-                    <input type="text" class="form-control" id="id_titulo_quadro" placeholder="Adicionar título do quadro"> 
-                    Selecione uma cor: <input type="color" id="id_cor_quadro" name="favcolor" value="#ff0000">
-                  </form>
-                </div>
-                <div class="modal-footer">
-                 <button type="button" class="btn btn-light" id="id_botao_criar_quadro">Criar Quadro</button>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
         <div class="col-sm-4"></div>
       </div> 

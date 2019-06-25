@@ -1,10 +1,19 @@
-.botoesQuadros{
-    margin-top:30%;
-    margin-left: 3%;
+.quadro{
+    border: 1px solid;
+    border-color: transparent;
+}
+
+.botao_excluir{ 
+    width: 10%;
+    height: 10%;
+    cursor: pointer;
+}
+
+.div_botao_criar_quadro{
+    margin-top: 1%;
     height: 45%;
     width: 45%;
 }
-
 
 .modal_quadro {
     display: none; /* Hidden by default */
@@ -18,7 +27,7 @@
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
   }
-
+  
   .conteudo_modal_quadro{
     background-color: #fefefe;
     margin: auto;
@@ -44,13 +53,14 @@
     cursor: pointer;
   }
 
+  
   body
-{
-    display: table;
-    width: 100%;
-    height: 100vh;
-    color: white;
-    background-position: 30% 45%;
-    background-size: cover;
-   
-}
+  {
+      display: table;
+      width: 100%;
+      height: 100vh;
+      color: white;
+      background-position: 30% 45%;
+      background-size: cover;
+     
+  }

@@ -1,3 +1,2 @@
-Projeto Web 1
  Neste projeto, foi desenvolvido um sistema semelhante ao Trello, onde, basicamente, o usuário consegue organizar tarefas por meio da criação de quadros e listas. Para se criar um quadro, é necessário definir o seu título e cor de background. Depois disso, as listas podem ser adicionadas ao mesmo. Uma lista deve possuir um título e pode conter cartões. Estes, por sua vez, devem ter título e podem ter tags e comentários. Além disso, os cartões podem ser transferidos entre listas dinamicamente, por meio de drag-and-drop. 
  O front-end do sistema foi feito com HTML5, CSS3 e JS. O back-end é uma API que responde a requisições GET, POST, DELETE etc. Todas as requisições foram feitas por meio do objeto XMLHttpRequest.

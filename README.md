@@ -10,7 +10,7 @@ Para se criar um quadro, é necessário definir o seu título e cor de backgroun
 O front-end do sistema foi feito em HTML5, CSS3, Bootstrap e JS.Também foram usadas ferramentas como o Visual Studio Code e o Git. Todas as requisições à API foram feitas por meio de XMLHttpRequest.
 
 ## Documentação da API
-A API e sua respectiva documentação foram desenvolvidas pelo Professor Henrique Santos, que leciona atualmente no IFPE. A documentação está disponível no site do professor e o direito autoral pertence a ele. Segue o site: http://tads-trello.herokuapp.com/web1/trello.html#collapseOutros. 
+A API e sua respectiva documentação foram desenvolvidas pelo Professor Henrique Santos, que leciona atualmente no IFPE. A documentação está disponível no site do professor e o direito autoral pertence a ele. Segue o site: http://www.henriquesantos.pro.br/p/bem-vindo.html. 
 
 ### Métodos - Usuários
 #### Cadastrar um usuario

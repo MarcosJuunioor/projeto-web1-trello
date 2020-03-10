@@ -1,5 +1,5 @@
 # Sistema de Gerenciamento de Projetos Similar ao Trello
-
+## Descrição
 Neste projeto, foi desenvolvido um sistema semelhante ao Trello, onde, basicamente, o usuário consegue organizar tarefas por meio da criação de quadros e listas. O Trello utiliza o paradigma Kanban para gerenciamento de projetos, que se tornou popular ao ser utilizado pela Toyota.
 
 ## Funcionamento

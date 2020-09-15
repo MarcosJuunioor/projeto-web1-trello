@@ -33,5 +33,7 @@ body
 }
 
 
-
+#id_loading{
+    display: none;
+}
 

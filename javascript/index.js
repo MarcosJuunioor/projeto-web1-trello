@@ -28,6 +28,8 @@ botaoVoltar.addEventListener("click", function(e){
 
 /* SUBMIT DO FORM DE LOGIN */
 formLogin.addEventListener("submit", function (e) {
+    document.getElementById( 'id_loading' ).style.display = 'block';
+
     e.preventDefault();
     var dados = {
         username: document.getElementById("id_nome_usuario_login").value,
@@ -37,12 +39,16 @@ formLogin.addEventListener("submit", function (e) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
+            document.getElementById( 'id_loading' ).style.display = 'none';
+
             var resposta = JSON.parse(this.responseText);
             sessionStorage.setItem("token", resposta.token);
             mensagem.innerHTML = "Login efetuado com sucesso!";
             mensagem.style.display = 'block';
             window.location.href = "pagina_inicial.html";
         } else if (this.status == 400) {
+            document.getElementById( 'id_loading' ).style.display = 'none';
+
             mensagem.innerHTML = "Verifique os dados!";
             mensagem.style.display = 'block';
         } 
@@ -108,4 +114,5 @@ function verificarSenha(senha){
 // /[^a-z]/i caracteres q n estejam entre a e z.
 // /[^0-9]/i caracteres q n estejam entre 0 e 9.
 // /[0-9]/i caracteres q estejam entre 0 e 9.
+
 
